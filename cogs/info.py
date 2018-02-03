@@ -303,14 +303,13 @@ class Information:
         website = '[selfbot-py.tk](http://selfbot-py.tk/)'
 
 
-        embed.add_field(name='Author', value='X-49#9821')
-        embed.add_field(name='Uptime', value=uptime)
+        embed.add_field(name='Автор', value='X-49#9821')
+        embed.add_field(name='Время работы', value=uptime)
         memory_usage = self.bot.process.memory_full_info().uss / 1024**2
         cpu_usage = self.bot.process.cpu_percent() / psutil.cpu_count()
-        embed.add_field(name='Process', value=f'{memory_usage:.2f} MiB\n{cpu_usage:.2f}% CPU')
+        embed.add_field(name='Процесс', value=f'{memory_usage:.2f} MiB\n{cpu_usage:.2f}% CPU')
         embed.add_field(name='Github', value=github)
         embed.add_field(name='Discord', value=server)
-        embed.set_footer(text=f'Powered by discord.py {discord.__version__}')
         await ctx.send(embed=embed)
 
 

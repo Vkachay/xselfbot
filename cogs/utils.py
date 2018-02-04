@@ -297,21 +297,20 @@ class Utility:
     @commands.group(aliases=['rtfd'], invoke_without_command=True)
     async def rtfm(self, ctx, *, obj: str = None):
         """
-        Gives you a documentation link for a discord.py entity.
-        Written by Rapptz
+        Дает документальную ссылку на discord.py entity.
         """
         await self.do_rtfm(ctx, 'rewrite', obj)
 
     @commands.command(pass_context=True)
     async def wiki(self, ctx, *, search: str = None):
-        '''Addictive Wikipedia results'''
+        '''Википедия результат'''
         if search == None:
             await ctx.channel.send(f'Usage: `{ctx.prefix}wiki [search terms]`')
             return
 
         results = wikipedia.search(search)
         if not len(results):
-            no_results = await ctx.channel.send("Sorry, didn't find any result.")
+            no_results = await ctx.channel.send("На википедии нет такого.")
             await asyncio.sleep(5)
             await ctx.message.delete(no_results)
             return
@@ -320,7 +319,7 @@ class Utility:
         try:
             wik = wikipedia.page(newSearch)
         except wikipedia.DisambiguationError:
-            more_details = await ctx.channel.send('Please input more details.')
+            more_details = await ctx.channel.send('Более четко?.')
             await asyncio.sleep(5)
             await ctx.message.delete(more_details)
             return
@@ -330,11 +329,11 @@ class Utility:
         emb.title = wik.title
         emb.url = wik.url
         textList = textwrap.wrap(wik.content, 500, break_long_words=True, replace_whitespace=False)
-        emb.add_field(name="Wikipedia Results", value=textList[0] + "...")
+        emb.add_field(name="Википедия результат", value=textList[0] + "...")
         await ctx.message.edit(embed=emb)
 
     async def to_embed(self, ctx, params):
-        '''Actually formats the parsed parameters into an Embed'''
+        '''Актуальный формат embed'''
         em = discord.Embed()
 
         if not params.count('{'):
@@ -449,7 +448,7 @@ class Utility:
             for page in pages:
                 async with self.bot.session.get(page) as resp:
                     if resp.status != 200:
-                        raise RuntimeError('Cannot build rtfm lookup table, try again later.')
+                        raise RuntimeError('Немогу зделать rtfm lookup table,может поже.')
 
                     text = await resp.text(encoding='utf-8')
                     root = etree.fromstring(text, etree.HTMLParser())
@@ -508,7 +507,7 @@ class Utility:
 
         e = discord.Embed(colour=discord.Colour.blurple())
         if len(matches) == 0:
-            return await ctx.send('Could not find anything. Sorry.')
+            return await ctx.send('Ничего не нашел,прости')
 
         e.description = '\n'.join('[{}]({}) ({}%)'.format(key, url, p) for key, p, url in matches)
         await ctx.send(embed=e)
@@ -519,7 +518,7 @@ class Utility:
         # check if it's a calculator card:
         calculator = node.find(".//span[@class='cwclet']")
         if calculator is not None:
-            e.title = 'Calculator'
+            e.title = 'Калькулятор'
             result = node.find(".//span[@class='cwcot']")
             if result is not None:
                 result = ' '.join((calculator.text, result.text.strip()))
@@ -817,7 +816,7 @@ class Utility:
                 return await ctx.send(embed=card)
 
             if len(entries) == 0:
-                return await ctx.send('No results found... sorry.')
+                return await ctx.send('нету результатов.')
 
             next_two = [x[0] for x in entries[1:3]]
             first_entry = entries[0][0]
@@ -943,7 +942,7 @@ class Utility:
             try:
                 serverid = int(serverid)
             except:
-                await ctx.send('Invalid Server ID')
+                await ctx.send('Неправильный ID')
                 return
             server = discord.utils.get(self.bot.guilds, id=int(serverid))
             if server == None:
@@ -955,7 +954,7 @@ class Utility:
         for guild in self.bot.guilds:
             if guild.id in emotes_servers:
                 await guild.ack()
-        await ctx.send('All messages marked read in emote servers!')
+        await ctx.send('Все сообщения прочитаны!')
 
     @commands.command()
     async def choose(self, ctx, *, choices: commands.clean_content):
@@ -968,10 +967,9 @@ class Utility:
 
     @commands.command()
     async def update(self, ctx):
-        '''Auto Update command, checks if you have latest version
-        Use tags github-token to find out how to set up this token'''
+        '''Авто обновление'''
         git = self.bot.get_cog('Git')
-        if not await git.starred('kyb3r/selfbot.py'): return await ctx.send('**This command is disabled as the user have not starred <https://github.com/kyb3r/selfbot.py>**')
+        if not await git.starred('kyb3r/selfbot.py'): return await ctx.send('**Комманда отключена <https://github.com/x-49/xselfbot.py>**')
         # get username
         username = await git.githubusername()
         async with ctx.session.get('https://api.github.com/repos/kyb3r/selfbot.py/git/refs/heads/rewrite', headers={"Authorization": f"Bearer {git.githubtoken}"}) as resp:
@@ -979,7 +977,7 @@ class Utility:
                 async with ctx.session.post(f'https://api.github.com/repos/{username}/selfbot.py/merges', json={"head": (await resp.json())['object']['sha'], "base": "rewrite", "commit_message": "Updating Bot"}, headers={"Authorization": f"Bearer {git.githubtoken}"}) as resp2:
                     if 300 > resp2.status >= 200:
                         if resp2.status == 204:
-                            return await ctx.send('Already at latest version!')
+                            return await ctx.send('У тебя последняя версия!')
                         await ctx.send('Bot updated! Restarting...')
                     else:
                         if resp2.status == 409:
@@ -990,13 +988,13 @@ class Utility:
 
     @commands.command(pass_context=True)
     async def rpoll(self, ctx, *, args):
-        """Create a poll using reactions. {p}help rpoll for more information.
-        {p}rpoll <question> | <answer> | <answer> - Create a poll. You may use as many answers as you want, placing a pipe | symbol in between them.
-        Example:
-        {p}rpoll What is your favorite anime? | Steins;Gate | Naruto | Attack on Titan | Shrek
-        You can also use the "time" flag to set the amount of time in seconds the poll will last for.
-        Example:
-        {p}rpoll What time is it? | HAMMER TIME! | SHOWTIME! | time=10
+        """Используйте опрос с эмодзи. {p}help rpoll для большей информации.
+        {p}rpoll <Вопрос> | <ответ> | <ответ> - Количество ответов регулируется знаком `|` 
+        Пример:
+        {p}rpoll Какое твое любимое аниме? | Steins;Gate | Naruto | Attack on Titan | Shrek
+        Можно также установить время опроса.
+        Пример:
+        {p}rpoll Какое время? | HAMMER TIME! | SHOWTIME! | time=10
         """
         await ctx.message.delete()
         options = args.split(" | ")
@@ -1019,7 +1017,7 @@ class Utility:
         for idx, option in enumerate(options[1:]):
             confirmation_msg += "{} - {}\n".format(emoji[idx], option)
             to_react.append(emoji[idx])
-        confirmation_msg += "\n\nYou have {} seconds to vote!".format(time)
+        confirmation_msg += "\n\nУ вас {} для голосования!".format(time)
         poll_msg = await ctx.send(confirmation_msg)
         for emote in to_react:
             await poll_msg.add_reaction(emote)
@@ -1031,7 +1029,7 @@ class Utility:
         for reaction in poll_msg.reactions:
             if reaction.emoji in to_react:
                 results[reaction.emoji] = reaction.count - 1
-        end_msg = "The poll is over. The results:\n\n"
+        end_msg += "опрос закончен,результат :\n\n"
         for result in results:
             end_msg += "{} {} - {} votes\n".format(result, options[emoji.index(result)+1], results[result])
         top_result = max(results, key=lambda key: results[key])
@@ -1040,22 +1038,22 @@ class Utility:
             for key, value in results.items():
                 if value == results[top_result]:
                     top_results.append(options[emoji.index(key)+1])
-            end_msg += "\nThe victory is tied between: {}".format(", ".join(top_results))
+            end_msg += "\nПобедил ответ: {}".format(", ".join(top_results))
         else:
             top_result = options[emoji.index(top_result)+1]
-            end_msg += "\n{} is the winner!".format(top_result)
+            end_msg += "\n{} Победитель!".format(top_result)
         await ctx.send(end_msg)
 
     @commands.group(invoke_without_command=True)
     async def cc(self, ctx):
-        '''Custom Commands!'''
+        '''Кастомные комманды '''
         git = self.bot.get_cog('Git')
-        if not await git.starred('kyb3r/selfbot.py'): return await ctx.send('**This command is disabled as the user have not starred <https://github.com/kyb3r/selfbot.py>**')
+        if not await git.starred('x-49/xselfbot.py'): return await ctx.send('**Комманда отключена <https://github.com/x-49/xselfbot.py>**')
     @cc.command(aliases=['create', 'add'])
     async def make(self, ctx, name, *, content):
-        '''Create a custom command! Include `{pycc}` in the content to specify a pycc!'''
+        '''Создайте свою комманду! Include `{pycc}` in the content to specify a pycc!'''
         git = self.bot.get_cog('Git')
-        if not await git.starred('kyb3r/selfbot.py'): return await ctx.send('**This command is disabled as the user have not starred <https://github.com/kyb3r/selfbot.py>**')
+        if not await git.starred('x-49/xselfbot.py'): return await ctx.send('Отключена **htts://X-49/xselfbot.py>**')
         if discord.utils.get(bot.commands, name=name) != None:
             return await ctx.send('This is already an existing command.')
         with open('data/cc.json') as f:
@@ -1191,7 +1189,7 @@ class Utility:
         pass
     @options.command()
     async def edit(self, ctx, name, *, value):
-        """Edits an option"""
+        """Изменить функцию"""
         name = name.upper()
         if name != 'NICKPROTECT':
             with open('data/options.json') as f:
@@ -1205,11 +1203,11 @@ class Utility:
                 if await ctx.updatedata('data/options.json', json.dumps(options, indent=4), f'Update option: {name}'):
                     await ctx.send('Option edited. Now wait for me to restart!')
         else:
-            await ctx.send('Use `{p}nickprotect` to modify nick protect options.', delete_after=2)
+            await ctx.send('Используй `{p}nickprotect. чтоб защитить ник', delete_after=2)
     
     @options.command(name='list')
     async def __list(self, ctx):
-        """Lists all options"""
+        """Лист всех функций"""
         with open ('data/options.json') as f:
             await ctx.send('```json\n' + json.dumps(json.load(f), indent=4) + '\n```')
 
@@ -1225,7 +1223,7 @@ class Utility:
             options = json.load(f)
         if serverid is None: serverid = ctx.guild.id
         if serverid in options['NICKPROTECT']:
-            return await ctx.send('Server ID already in nickprotect.')
+            return await ctx.send('Server ID защищен коммандой nickprotect.')
         options['NICKPROTECT'].append(serverid)
         if await ctx.updatedata('data/options.json', json.dumps(options, indent=4), f'Added {serverid} to nickprotect'):
             await ctx.send('Server added. Now wait for me to restart!')
@@ -1237,7 +1235,7 @@ class Utility:
             options = json.load(f)
         if serverid is None: serverid = ctx.guild.id
         if serverid not in options['NICKPROTECT']:
-            return await ctx.send('Server ID not even in nickprotect.')
+            return await ctx.send('Server ID не защищен коммандой nickprotect.')
         options['NICKPROTECT'].remove(serverid)
         if await ctx.updatedata('data/options.json', json.dumps(options, indent=4), f'Removed {serverid} to nickprotect'):
             await ctx.send('Server removed. Now wait for me to restart!')

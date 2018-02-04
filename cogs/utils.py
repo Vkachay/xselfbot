@@ -925,19 +925,19 @@ class Utility:
 
     @commands.command()
     async def hastebin(self, ctx, code):
-        '''Hastebin-ify your code!'''
+        '''Hastebin-ify код!'''
         async with ctx.session.post("https://hastebin.com/documents", data=code) as resp:
             data = await resp.json()
         await ctx.message.edit(content=f"Hastebin-inified! <https://hastebin.com/{data['key']}.py>")
 
     @commands.command()
     async def clear(self, ctx, *, serverid=None):
-        '''Marks messages from selected servers or emote servers as read'''
+        '''Выделит нужный сервер прочитаным'''
         if serverid != None:
             if serverid == 'all':
                 for guild in self.bot.guilds:
                     await guild.ack()
-                await ctx.send('Cleared all unread messages')
+                await ctx.send('Непрочитаные сообщения прочитаны')
                 return
             try:
                 serverid = int(serverid)
@@ -958,10 +958,10 @@ class Utility:
 
     @commands.command()
     async def choose(self, ctx, *, choices: commands.clean_content):
-        '''Choose between multiple choices. Use `,` to seperate choices.'''
+        '''Выберите один из нескольких вариантов. Используйте `,` для разделения.'''
         choices = choices.split(',')
         if len(choices) < 2:
-            return await ctx.send('Not enough choices to pick from.')
+            return await ctx.send('недостаточно выборов.')
         choices[0] = ' ' + choices[0]
         await ctx.send(str(random.choice(choices))[1:])
 

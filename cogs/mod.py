@@ -47,38 +47,38 @@ class Mod:
         emb.set_footer(text=f'User ID: {user.id}')
         if success:
             if method == 'ban' or method == 'hackban':
-                emb.description = f'{user} was just {method}ned.'
+                emb.description = f'{user} был {method}ned.'
             elif method == 'unmute':
-                emb.description = f'{user} was just {method}d.'
+                emb.description = f'{user} был {method}d.'
             elif method == 'mute':
-                emb.description = f'{user} was just {method}d for {duration}.'
+                emb.description = f'{user} {method}d время: {duration}.'
             elif method == 'channel-lockdown' or method == 'server-lockdown':
-                emb.description = f'`{location.name}` is now in lockdown mode!'
+                emb.description = f'`{location.name}` теперь заблокирован!'
             else:
-                emb.description = f'{user} was just {method}ed.'
+                emb.description = f'{user} был {method}ed.'
         else:
             if method == 'lockdown' or 'channel-lockdown':
-                emb.description = f"You do not have the permissions to {method} `{location.name}`."
+                emb.description = f"Нет прав для использования комманды {method} `{location.name}`."
             else:
-                emb.description = f"You do not have the permissions to {method} {user.name}."
+                emb.description = f"Нет прав для использования комманды {method} {user.name}."
         
         with open('data/config.json') as f:
             config = json.load(f)
             modlog = os.environ.get('MODLOG') or config.get('MODLOG')
         if modlog is None:
-            await ctx.send('You have not set `MODLOG` in your config vars.', delete_after=5)
+            await ctx.send('Вы ненастроили `MODLOG` в настройках.', delete_after=2)
         else:
             modlog = discord.utils.get(self.bot.get_all_channels(), id=int(modlog))
             if modlog is None:
-                await ctx.send('Your `MODLOG` channel ID is invalid.', delete_after=5)
+                await ctx.send('`MODLOG` channel ID Неправильный.', delete_after=1)
             else:
                 await modlog.send(embed=emb)
             
         return emb
 
     @commands.command()
-    async def kick(self, ctx, member : discord.Member, *, reason='Please write a reason!'):
-        '''Kick someone from the server.'''
+    async def kick(self, ctx, member : discord.Member, *, reason='Укажите причину!'):
+        '''Кикнуть юзера с сервера.'''
         try:
             await ctx.guild.kick(member, reason=reason)
         except:
@@ -91,8 +91,8 @@ class Mod:
         await ctx.send(embed=emb)
 
     @commands.command()
-    async def ban(self, ctx, member : discord.Member, *, reason='Please write a reason!'):
-        '''Ban someone from the server.'''
+    async def ban(self, ctx, member : discord.Member, *, reason='Укажите причину!'):
+        '''Бан юзера на сервере.'''
         try:
             await ctx.guild.ban(member, reason=reason)
         except:
@@ -106,7 +106,7 @@ class Mod:
 
     @commands.command()
     async def unban(self, ctx, name_or_id, *, reason=None):
-        '''Unban someone from the server.'''
+        '''Разбан.'''
         ban = await ctx.get_ban(name_or_id)
 
         try:
@@ -122,7 +122,7 @@ class Mod:
 
     @commands.command(aliases=['del','p','prune'])
     async def purge(self, ctx, limit : int, member:discord.Member=None):
-        '''Clean a number of messages'''
+        '''Очистка сообщений'''
         if member is None:
             await ctx.purge(limit=limit+1)
         else:
@@ -132,8 +132,7 @@ class Mod:
 
     @commands.command()
     async def clean(self, ctx, quantity: int):
-        ''' Clean a number of your own messages
-        Usage: {prefix}clean 5 '''
+        ''' Очистить сообщения отправленые вами. Пример: {prefix}clean 5 '''
         if quantity <= 15:
             total = quantity +1
             async for message in ctx.channel.history(limit=total):
@@ -148,11 +147,11 @@ class Mod:
 
     @commands.command()
     async def bans(self, ctx):
-        '''See a list of banned users in the guild'''
+        '''Великий лист банов'''
         try:
             bans = await ctx.guild.bans()
         except:
-            return await ctx.send('You dont have the perms to see bans.')
+            return await ctx.send('Нет прав для просмотра листа банов.')
 
         em = discord.Embed(title=f'List of Banned Members ({len(bans)}):')
         em.description = ', '.join([str(b.user) for b in bans])
@@ -162,7 +161,7 @@ class Mod:
 
     @commands.command()
     async def baninfo(self, ctx, *, name_or_id):
-        '''Check the reason of a ban from the audit logs.'''
+        '''Узнате причину бана с логов.'''
         ban = await ctx.get_ban(name_or_id)
         em = discord.Embed()
         em.color = await ctx.get_dominant_color(ban.user.avatar_url)
@@ -175,36 +174,36 @@ class Mod:
 
     @commands.command()
     async def addrole(self, ctx, member: discord.Member, *, rolename: str):
-        '''Add a role to someone else.'''
+        '''Добавить роль юзеру.'''
         role = discord.utils.find(lambda m: rolename.lower() in m.name.lower(), ctx.message.guild.roles)
         if not role:
-            return await ctx.send('That role does not exist.')
+            return await ctx.send('Щас дам,А неттт, нет такой роли.')
         try:
             await member.add_roles(role)
-            await ctx.send(f'Added: `{role.name}`')
+            await ctx.send(f'Добавлена роль: `{role.name}`')
         except:
-            await ctx.send("I don't have the perms to add that role.")
+            await ctx.send("Нету прав((9(.")
 
 
     @commands.command()
     async def removerole(self, ctx, member: discord.Member, *, rolename: str):
-        '''Remove a role from someone else.'''
+        '''Убрать роль с юзера.'''
         role = discord.utils.find(lambda m: rolename.lower() in m.name.lower(), ctx.message.guild.roles)
         if not role:
-            return await ctx.send('That role does not exist.')
+            return await ctx.send('Ща сниму,А нееет, нет такой роли.')
         try:
             await member.remove_roles(role)
-            await ctx.send(f'Removed: `{role.name}`')
+            await ctx.send(f'Убрана роль: `{role.name}`')
         except:
-            await ctx.send("I don't have the perms to add that role.")
+            await ctx.send("У меня нету прав")
 
     @commands.command()
     async def hackban(self, ctx, userid, *, reason=None):
-        '''Ban someone not in the server'''
+        '''Забанить человека которого нет на сервере'''
         try:
             userid = int(userid)
         except:
-            await ctx.send('Invalid ID!')
+            await ctx.send('Неправельный ID!')
         
         try:
             await ctx.guild.ban(discord.Object(userid), reason=reason)
@@ -222,7 +221,7 @@ class Mod:
 
     @commands.command()
     async def mute(self, ctx, member:discord.Member, duration, *, reason=None):
-        '''Denies someone from chatting in all text channels and talking in voice channels for a specified duration'''
+        '''Заблокировать доступ ко всем текстовым каналам на время'''
         unit = duration[-1]
         if unit == 's':
             time = int(duration[:-1])
@@ -234,10 +233,10 @@ class Mod:
             time = int(duration[:-1]) * 60 * 60
             longunit = 'hours'
         else:
-            await ctx.send('Invalid Unit! Use `s`, `m`, or `h`.')
+            await ctx.send('Неправильно! Использовать `s`, `m`, или `h`.')
             return
 
-        progress = await ctx.send('Muting user!')
+        progress = await ctx.send('Юзер замутен>:(!')
         try:
             for channel in ctx.guild.text_channels:
                 await channel.set_permissions(member, overwrite=discord.PermissionOverwrite(send_messages = False), reason=reason)
@@ -261,8 +260,8 @@ class Mod:
         
     @commands.command()
     async def unmute(self, ctx, member:discord.Member, *, reason=None):
-        '''Removes channel overrides for specified member'''
-        progress = await ctx.send('Unmuting user!')
+        '''Убрать ограничения на каналы определеному человеку'''
+        progress = await ctx.send('Размутить юзера!')
         try:
             for channel in ctx.message.guild.channels:
                 await channel.set_permissions(member, overwrite=None, reason=reason)

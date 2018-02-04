@@ -61,7 +61,7 @@ emotes_servers = [
 
 
 class Utility:
-    '''Useful commands to make your life easier'''
+    '''Список'''
 
     def __init__(self, bot):
         self.bot = bot
@@ -74,15 +74,14 @@ class Utility:
     @commands.command(name='logout')
     async def _logout(self, ctx):
         '''
-        Shuts down the selfbot,
-        equivalent to a restart if you are hosting the bot on heroku.
+       Выключить бота,включать на хероку.
         '''
-        await ctx.send('`Selfbot Logging out...`')
+        await ctx.send('`Успешно вышел...`')
         await self.bot.logout()
 
     @commands.command(name='help')
     async def new_help_command(self, ctx, *commands: str):
-        """Shows this message."""
+        """Показать это сообщение"""
         destination = ctx.message.author if self.bot.pm_help else ctx.message.channel
 
         def repl(obj):
@@ -143,7 +142,7 @@ class Utility:
 
     @commands.command(name='presence')
     async def _presence(self, ctx, status, *, message=None):
-        '''Change your Discord status! ("Playing", or clear it!)'''
+        '''Сменить дискорд статус ("Playing", clear или stream)'''
         status = status.lower()
         emb = discord.Embed(title="Presence")
         emb.color = await ctx.get_dominant_color(ctx.author.avatar_url)

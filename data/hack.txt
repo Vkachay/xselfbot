@@ -1,5 +1,0 @@
-``searhing {user}``
-``hacking``
-``hacking /``
-``hacking |``
-``test ended``

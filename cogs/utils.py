@@ -801,7 +801,7 @@ class Utility:
 
     @commands.command(aliases=['g'])
     async def google(self, ctx, *, query):
-        """Searches google and gives you top result."""
+        """Найдет лучщий результат с Google."""
         await ctx.trigger_typing()
         try:
             card, entries = await self.get_google_entries(query)
@@ -812,7 +812,7 @@ class Utility:
                 value = '\n'.join(f'[{title}]({url.replace(")", "%29")})' for url,
                                   title in entries[:3])
                 if value:
-                    card.add_field(name='Search Results', value=value, inline=False)
+                    card.add_field(name='Результат поиска', value=value, inline=False)
                 return await ctx.send(embed=card)
 
             if len(entries) == 0:

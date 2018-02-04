@@ -613,7 +613,7 @@ class Misc:
             if member.game != None:
                 if member.game.name == game:
                     message += str(member) + '\n'
-        await ctx.send(embed=discord.Embed(title=f'Who is playing {game}?', description = message, color=await ctx.get_dominant_color(url=ctx.message.author.avatar_url)))
+        await ctx.send(embed=discord.Embed(title=f'Кто играет в {game}?', description = message, color=await ctx.get_dominant_color(url=ctx.message.author.avatar_url)))
 
     @commands.command()
     async def nickscan(self, ctx):
@@ -622,11 +622,11 @@ class Misc:
             if guild.me.nick != None:
                 message += f'{guild.name} | {guild.me.nick}\n'
 
-        await ctx.send(embed=discord.Embed(title=f'Servers I Have Nicknames In', description = message, color=await ctx.get_dominant_color(url=ctx.message.author.avatar_url)))
+        await ctx.send(embed=discord.Embed(title=f'Мои имена на разных серверах', description = message, color=await ctx.get_dominant_color(url=ctx.message.author.avatar_url)))
 
     @commands.command()
     async def textmojify(self, ctx, *, msg):
-        """Convert text into emojis"""
+        """Перевод текста в эмодзи"""
         try:
             await ctx.message.delete()
         except discord.Forbidden:
@@ -666,12 +666,12 @@ class Misc:
 
     @commands.command(aliases=['yt', 'vid', 'video'])
     async def youtube(self, ctx, *, search):
-        """Search for videos on YouTube"""
+        """Искать видео на ютубе"""
         search = search.replace(' ', '+').lower()
         response = requests.get(f"https://www.youtube.com/results?search_query={search}").text
         result = BeautifulSoup(response, "lxml")
         dir_address = f"{result.find_all(attrs={'class': 'yt-uix-tile-link'})[0].get('href')}"
-        output=f"**Top Result:**\nhttps://www.youtube.com{dir_address}"
+        output=f"**Лучший результат:**\nhttps://www.youtube.com{dir_address}"
         try:
             await ctx.send(output)
             await ctx.message.delete()

@@ -157,15 +157,14 @@ class Misc:
         
     @commands.command()
     async def gif(self, ctx, *, tag):
-        ''' Get a random gif. Usage: gif <tag> 
-        this command is sfw, to use nsfw gifs
-        load community.nsfw '''
+        ''' Рандом гиф. Использовать: gif <тег> 
+        Эта гиф Nsfw чтоб исподьзовать ее проппшите 'load community.nsfw '''
         g = safygiphy.Giphy()
         tag = tag.lower()
         with open('data/nsfw.json')as f:
             nsfwgif = json.load(f)
         if tag in nsfwgif:
-            return await ctx.send('`Please use the nsfw commands to see content like this.`', delete_after=5)
+            return await ctx.send('`Используй этот контент там где ему место,18+..`', delete_after=5)
         gif = g.random(tag=tag)
         color = await ctx.get_dominant_color(ctx.author.avatar_url)
         em = discord.Embed(color=color)
@@ -179,7 +178,7 @@ class Misc:
 
     @commands.command()
     async def embedsay(self, ctx, *, message):
-        '''Quick command to embed messages quickly.'''
+        '''Быстрый цветной embed без модификаций.'''
         await ctx.message.delete()
         em = discord.Embed(color=random.randint(0, 0xFFFFFF))
         em.description = message
@@ -268,7 +267,7 @@ class Misc:
 
     @commands.command()
     async def bf(self, ctx, slurp:str):
-        '''Evaluate 'brainfuck' code (a retarded language).'''
+        '''brainfuck код (спец код язык).'''
         thruput = ctx.message.content
         preinput = thruput[5:]
         preinput2 = "\"\"\"\n" + preinput
@@ -279,12 +278,12 @@ class Misc:
 
     @commands.command()
     async def py(self, ctx, *, code):
-        '''Quick command to edit into a codeblock.'''
+        '''Быстрая комманда для изменений в codeblock.'''
         await ctx.message.edit(content=f'```py\n{code}\n```')
 
     @commands.group(invoke_without_command=True, aliases=['anim'])
     async def animate(self, ctx, *, file):
-        '''Animate a text file on discord!'''
+        '''Анимированые сообщения(anim list) !'''
         try:
             with open(f'data/anims/{file}.txt') as a:
                 anim = a.read().splitlines()
@@ -297,13 +296,13 @@ class Misc:
 
     @animate.command()
     async def list(self, ctx):
-        '''Lists all possible animations'''
+        '''Вот весь доступный список'''
         await ctx.send(f"Available animations: `{', '.join([f[:-4] for f in os.listdir('data/anims') if f.endswith('.txt')])}`")
 
     @commands.command()
     async def virus(self, ctx, virus=None, *, user: discord.Member = None):
         '''
-        Destroy someone's device with this virus command!
+        Шуточная команда вирус
         '''
         virus = virus or 'discord'
         user = user or ctx.author
@@ -316,7 +315,7 @@ class Misc:
 
     @commands.command()
     async def react(self, ctx, index: int, *, reactions):
-        '''React to a specified message with reactions'''
+        '''Добавить смайлики под сообщение'''
         history = await ctx.channel.history(limit=10).flatten()
         message = history[index]
         async for emoji in self.validate_emojis(ctx, reactions):
@@ -324,8 +323,7 @@ class Misc:
 
     async def validate_emojis(self, ctx, reactions):
         '''
-        Checks if an emoji is valid otherwise,
-        tries to convert it into a custom emoji
+        Проверьте на наличие кастом эмодзи
         '''
         for emote in reactions.split():
             if emote in emoji.UNICODE_EMOJI:
@@ -338,7 +336,7 @@ class Misc:
 
     @commands.command(aliases=['color', 'colour', 'sc'])
     async def show_color(self, ctx, *, color: discord.Colour):
-        '''Enter a color and you will see it!'''
+        '''Введите код цвета и просмотрите его!'''
         file = io.BytesIO()
         Image.new('RGB', (200, 90), color.to_rgb()).save(file, format='PNG')
         file.seek(0)
@@ -348,7 +346,7 @@ class Misc:
 
     @commands.command(aliases=['dc', 'dominant_color'])
     async def dcolor(self, ctx, *, url):
-        '''Fun command that shows the dominant color of an image'''
+        '''Покажет доминируйщий цвет на картинке'''
         await ctx.message.delete()
         color = await ctx.get_dominant_color(url)
         string_col = ColorNames.color_name(str(color))
@@ -361,10 +359,10 @@ class Misc:
         em.set_image(url="attachment://color.png")
         await ctx.send(file=discord.File(file, 'color.png'), embed=em)
 
-    @commands.command(description='This command might get you banned')
+    @commands.command(description='Эта комманда активируется при бане')
     async def annoy(self, ctx, member: discord.Member=None, number: int=5):
         """ Usage: annoy @b1nzy#1337 50
-        NOTICE: If you get banned, don't come back crying! """
+        Пример: Если ты получишь бан,не возращайся назад! """
         if number > 5:
             number = 5
         member = member or ctx.author
@@ -378,7 +376,7 @@ class Misc:
                 await ctx.send(member.mention)
                 await asyncio.sleep(8)
         else:
-            return await ctx.send(f"{ctx.author.mention}, I don't know how to use commands. Help!")
+            return await ctx.send(f"{ctx.author.mention}, Я не знаю как юзать эту комманду. Помогите!")
 
     @commands.command()
     async def tinyurl(self, ctx, *, link: str):
@@ -437,12 +435,12 @@ class Misc:
 
     @commands.command()
     async def algebra(self, ctx, *, equation):
-        '''Solve algabraic equations'''
+        '''Примеры алгебры'''
         eq = parse_equation(equation)
         result = solve(eq)
         em = discord.Embed()
         em.color = discord.Color.green()
-        em.title = 'Equation'
+        em.title = 'Алгебра'
         em.description = f'```py\n{equation} = 0```'
         em.add_field(name='Result', value=f'```py\n{result}```')
         await ctx.send(embed=em)
@@ -459,7 +457,7 @@ class Misc:
 
     @commands.group(invoke_without_command=True, name='emoji', aliases=['emote', 'e'])
     async def _emoji(self, ctx, *, emoji: str):
-        '''Use emojis without nitro!'''
+        '''Эмодзи без нитро,формат jpn))0)'''
         emoji = emoji.split(":")
         emoji_check = self.check_emojis(ctx.bot.emojis, emoji)
         if emoji_check[0]:
@@ -471,7 +469,7 @@ class Misc:
             else:
                 emo = discord.utils.find(lambda e: emoji[0] in e.name.lower(), ctx.bot.emojis)
             if emo == None:
-                em = discord.Embed(title="Send Emoji", description="Could not find emoji.")
+                em = discord.Embed(title="Отправка эмодзи", description="Нету эмодзи имеющие данное содержание.")
                 em.color = await ctx.get_dominant_color(ctx.author.avatar_url)
                 await ctx.send(embed=em)
                 return
@@ -484,10 +482,10 @@ class Misc:
     @_emoji.command()
     @commands.has_permissions(manage_emojis=True)
     async def copy(self, ctx, *, emoji: str):
-        '''Copy an emoji from another server to your own'''
+        '''Копирует эмодзи с другово сервер на ваш'''
         if len(ctx.message.guild.emojis) == 50:
             await ctx.message.delete()
-            await ctx.send('Your Server has already hit the 50 Emoji Limit!')
+            await ctx.send('Блеат у нас уже 50 стикеров, куда двльше?!')
             return
         emo_check = self.check_emojis(ctx.bot.emojis, emoji.split(":"))
         if emo_check[0]:
@@ -497,11 +495,11 @@ class Misc:
         em = discord.Embed()
         em.color = await ctx.get_dominant_color(ctx.author.avatar_url)
         if emo == None:
-            em.title = 'Add Emoji'
-            em.description = 'Could not find emoji.'
+            em.title = 'Добавление эмодзи'
+            em.description = 'Ты ошибся либо нету такого.'
             await ctx.send(embed=em)
             return
-        em.title = f'Added Emoji: {emo.name}'
+        em.title = f'Эмодзи: {emo.name} добавлено'
         em.set_image(url='attachment://emoji.png')
         async with ctx.session.get(emo.url) as resp:
             image = await resp.read()
@@ -511,7 +509,7 @@ class Misc:
 
     @commands.command(aliases=['emotes'])
     async def emojis(self, ctx):
-        '''Lists all emojis in a server'''
+        '''Лист всех эомдзи сервера в виде текста'''
         emotes = '\n'.join(['{1} `:{0}:`'.format(e.name, str(e)) for e in ctx.message.guild.emojis])
         if len(emotes) > 2000:
             paginated_text = ctx.paginate(emotes)
@@ -532,7 +530,7 @@ class Misc:
 
     @commands.command()
     async def urban(self, ctx, *, search_terms: str):
-        '''Searches Up a Term in Urban Dictionary'''
+        '''Искать информацию о термине на Urban Dictionary'''
         client = urbanasync.Client(ctx.session)
         search_terms = search_terms.split()
         definition_number = terms = None
@@ -588,15 +586,15 @@ class Misc:
 
     @commands.command(aliases=['8ball'])
     async def eightball(self, ctx, *, question=None):
-        """Ask questions to the 8ball"""
+        """Спросить ответ у 8ball"""
         with open('data/answers.json') as f:
             choices = json.load(f)
         author = ctx.message.author
         emb = discord.Embed()
         emb.color = await ctx.get_dominant_color(url=author.avatar_url)
-        emb.set_author(name='\N{WHITE QUESTION MARK ORNAMENT} Your question:', icon_url=author.avatar_url)
+        emb.set_author(name='\N{WHITE QUESTION MARK ORNAMENT} Твой вопрос:', icon_url=author.avatar_url)
         emb.description = question
-        emb.add_field(name='\N{BILLIARDS} Your answer:', value=random.choice(choices), inline=True)
+        emb.add_field(name='\N{BILLIARDS} Твой ответ:', value=random.choice(choices), inline=True)
         await ctx.send(embed=emb)
     
     @commands.command()
@@ -604,7 +602,7 @@ class Misc:
         async with ctx.session.get(f"http://artii.herokuapp.com/make?text={urllib.parse.quote_plus(text)}") as f:
             message = await f.text()
         if len('```' + message + '```') > 2000:
-            await ctx.send('Your ASCII is too long!')
+            await ctx.send('Твой ASCII слишком длин!')
             return
         await ctx.send('```' + message + '```')
 

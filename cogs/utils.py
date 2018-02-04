@@ -155,23 +155,20 @@ class Utility:
              color = discord.Color(value=0x551A8B).to_rgb()
         elif status == "clear":
             await self.bot.change_presence(game=None, afk=True)
-            emb.description = "Presence cleared."
+            emb.description = "Статус изменен."
             return await ctx.send(embed=emb)
         else:
-            emb.description = "Please enter either `play`,`stream` or `clear`."
+            emb.description = "Выбрать можно токо это `play`,`stream` или `clear`."
             return await ctx.send(embed=emb)
 
         Image.new('RGB', (500, 500), color).save(file, format='PNG')
         if message:
             emb.description = f"""
-Your presence has been changed. 'Game': {message}\n
-NOTICE: due to recent Discord API changes, this command is on revision.
-Available feature is to change Playing message for the time being.
-Please use your client's own feature to change between online, idle, dnd, or invisible.
-Thanks for your understanding.
+Статус меняется. 'Game': {message}\n
+Статус скоро будет изменен..
             """
         else:
-            emb.description = f"Your presence has been changed"
+            emb.description = f"Статус изменен"
         file.seek(0)
         emb.set_author(name=status.title(), icon_url="attachment://color.png")
         try:
@@ -183,20 +180,20 @@ Thanks for your understanding.
 
     @commands.command()
     async def source(self, ctx, *, command):
-        '''See the source code for any command.'''
+        '''Сурсы комманды.'''
         source = str(inspect.getsource(self.bot.get_command(command).callback))
         fmt = '```py\n' + source.replace('`', '\u200b`') + '\n```'
         if len(fmt) > 2000:
             async with ctx.session.post("https://hastebin.com/documents", data=source) as resp:
                 data = await resp.json()
             key = data['key']
-            return await ctx.send(f'Command source: <https://hastebin.com/{key}.py>')
+            return await ctx.send(f'source is: <https://hastebin.com/{key}.py>')
         else:
             return await ctx.send(fmt)
 
     @commands.command()
     async def copy(self, ctx, id: int, channel: discord.TextChannel=None):
-        '''Copy someones message by ID'''
+        '''Скопировать сообщение по ID'''
         await ctx.message.delete()
         msg = await ctx.get_message(channel or ctx.channel, id)
         if len(msg.embeds) > 1:
@@ -211,7 +208,7 @@ Thanks for your understanding.
 
     @commands.command()
     async def quote(self, ctx, id: int, channel: discord.TextChannel=None):
-        """Quote someone's message by ID"""
+        """Цитирование по ID"""
         await ctx.message.delete()
 
         msg = await ctx.get_message(channel or ctx.channel, id)
@@ -231,7 +228,7 @@ Thanks for your understanding.
 
     @commands.command()
     async def charinfo(self, ctx, *, characters: str):
-        """Shows you information about a number of characters."""
+        """Покажет информацию об цифре."""
         if len(characters) > 15:
             return await ctx.send('Too many characters ({}/15)'.format(len(characters)))
 
@@ -246,7 +243,7 @@ Thanks for your understanding.
 
     @commands.group(aliases=['trans'])
     async def translate(self, ctx, lang, *, text):
-        """Translate text!"""
+        """Перевести текст"""
         conv = self.lang_conv
         if lang in conv:
             return await self.bot.say(f'*{translate(text, lang)}*')
@@ -254,7 +251,7 @@ Thanks for your understanding.
         if lang:
             await ctx.send(f'*{translate(text, lang)}*')
         else:
-            await ctx.send('`Language not available.`', delete_after=5)
+            await ctx.send('`Язык не опознан.`', delete_after=5)
         try:
             await ctx.message.delete()
         except discord.Forbidden:
@@ -262,7 +259,7 @@ Thanks for your understanding.
 
     @translate.command()
     async def langs(self, ctx):
-        '''Lists all available languages'''
+        '''Лист всех доступных языков'''
         em = discord.Embed(color=discord.Color.blue(),
                            title='Available Languages',
                            description=', '.join(codes.values()))
@@ -270,12 +267,13 @@ Thanks for your understanding.
 
     @commands.command(name='last_embed')
     async def _last_embed(self, ctx):
-        '''Sends the command used to send the last embed'''
+        '''Отправляет last embed'''
         await ctx.send('`' + self._last_embed + '`')
 
     @commands.command()
     async def embed(self, ctx, *, params):
-        '''Send complex rich embeds with this command!
+        '''расширения к embed!''
+        
 
         ```
         {description: Discord format supported}

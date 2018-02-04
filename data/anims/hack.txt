@@ -1,7 +1,12 @@
-0.8
-Searhing target
-Hacking target
-Error,trying again
-Hacking
-Hacked.
-:GWcentralPikaLUL:
+2
+``Searhing target``
+``Hacking target``
+``Error,trying again``
+``Hacking``
+``Cant hack,trying again``
+``Hacking.``
+``Hacking..``
+``Hacking...``
+``User has hacking``
+``Deleting...``
+=)

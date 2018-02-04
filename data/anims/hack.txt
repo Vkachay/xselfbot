@@ -4,9 +4,10 @@
 ``Error,trying again``
 ``Hacking``
 ``Cant hack,trying again``
+0.8
 ``Hacking.``
 ``Hacking..``
 ``Hacking...``
-``User has hacking``
+``Hacked``
 ``Deleting...``
 =)

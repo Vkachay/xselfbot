@@ -153,7 +153,7 @@ class Utility:
             color = discord.Color(value=0x43b581).to_rgb()
         elif status == "stream":
              await self.bot.change_presence(game=discord.Game(name=message, url="https://twitch.tv", type=1), afk=True)
-             color = discord.Color(value=0x551A8B).to_rgb()
+             color = discord.Color(value=f82f23).to_rgb()
         elif status == "clear":
             await self.bot.change_presence(game=None, afk=True)
             emb.description = "Presence cleared."

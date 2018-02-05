@@ -48,12 +48,12 @@ class Nsfw:
 
     @commands.group(invoke_without_command=True)
     async def nsfw(self, ctx):
-        """ Get random lewds from the web """
+        """ Получить что-то рандомное с web """
         pass
 
     @nsfw.command()
     async def xbooru(self, ctx):
-        """ Random image from Xbooru """
+        """ Рандомная картинка с Xbooru """
         try:
             try:
                 await ctx.message.delete()
@@ -67,7 +67,7 @@ class Nsfw:
             em = discord.Embed(colour=discord.Colour(0xed791d))
             em.description = f'[Full Size Link*]({last})'
             em.set_image(url=last)
-            em.set_footer(text='* click link at your own risk!')
+            em.set_footer(text='* Кликните на ссылку на свой риск')
             try:
                 await ctx.send(embed=em)
             except discord.HTTPException:
@@ -85,7 +85,7 @@ class Nsfw:
 
     @commands.command(aliases=['gelbooru'])
     async def gel(self, ctx):
-        """ Random image from Gelbooru """
+        """ Рандомная картинкм с Gelbooru """
         try:
             try:
                 await ctx.message.delete()
@@ -102,7 +102,7 @@ class Nsfw:
             em = discord.Embed(colour=discord.Colour(0xed791d))
             em.description = f'[Full Size Link*]({image})'
             em.set_image(url=image)
-            em.set_footer(text='* click link at your own risk!')
+            em.set_footer(text='* Кликните на ссылку на свой риск !')
             try:
                 await ctx.send(embed=em)
             except discord.HTTPException:
@@ -123,9 +123,9 @@ class Nsfw:
 
     @nsfw.command()
     async def gif(self, ctx, *, tag):
-        """ Get a random lewd gif
-        Usage: gif <tag>
-        Available tags: rule34, nsfw, hentai, tits... """
+        """ Получить lewd gif
+        Использовать: gif <tag>
+        Примерные теги: rule34, nsfw, hentai, tits... """
         try:
             await ctx.message.delete()
         except discord.Forbidden:

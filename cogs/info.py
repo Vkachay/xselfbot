@@ -58,11 +58,11 @@ class Information:
         text = ''
         categories = ''
 
-        for channel in server.Войс_каналы:
+        for channel in server.voice_channels:
             voice += f'\U0001f508 {channel}\n'
-        for channel in server.Категории:
+        for channel in server.categories:
             categories += f'\U0001f4da {channel}\n'
-        for channel in server.Текстовые_каналы:
+        for channel in server.text_channels:
             text += f'\U0001f4dd {channel}\n'
         
         if len(server.text_channels) > 0:

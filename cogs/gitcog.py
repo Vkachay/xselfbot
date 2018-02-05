@@ -6,7 +6,7 @@ import aiohttp
 import traceback
 
 class Git:
-    '''Github Cog, facilitates viewing and creating issues'''
+    '''Github Cog, облегчает просмотр и создание проблем'''
     def __init__(self, bot):
         self.bot = bot
         self.session = aiohttp.ClientSession()
@@ -14,10 +14,9 @@ class Git:
     @property
     def githubtoken(self):
         '''
-        Returns your token wherever it is
-
-        This token can give any user complete access to the account.
-        https://github.com/settings/tokens is where you make a token.
+Возвращает ваш токен везде, где он
+        Этот токен может предоставить любому пользователю полный доступ к учетной записи.
+        https://github.com/settings/tokens - это то, где вы делали токен.
         '''
         with open('data/config.json') as f:
             config = json.load(f)
@@ -40,13 +39,13 @@ class Git:
         
     async def __local_check(self, ctx):
         if self.githubtoken is None:
-            await ctx.send('Github token not provided.', delete_after=10)
+            await ctx.send('Github token не указан!.', delete_after=10)
             return False
         return True
 
     @commands.command()
     async def issue(self, ctx, repo, issueid):
-        '''View an issue from Github!'''
+        '''Посмотреть запросы с Github!'''
         async with ctx.session.get(f"https://api.github.com/repos/{repo}/issues/{issueid}") as resp:
             if resp.status == 200 or resp.status == 201:
                 issueinfo = await resp.json()
@@ -98,7 +97,7 @@ class Git:
 
     @commands.command()
     async def suggest(self, ctx, summary, *, details):
-        '''Create an issue! `{p}makeissue <short summary> | <details>`'''
+        '''Создайте проблему! `{p} makeissue <краткое резюме> | <подробно>`'''
         async with ctx.session.post('https://api.github.com/repos/kyb3r/selfbot.py/issues', json={"title": summary, "body": details}, headers={'Authorization': f'Bearer {self.githubtoken}'}) as resp:
             if resp.status == 200 or resp.status == 201:
                 issueinfo = await resp.json()

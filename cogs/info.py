@@ -251,7 +251,7 @@ class Information:
         em.add_field(name='Номер.',value=str(member_number),inline = True)
         em.add_field(name='Дата создания', value=user.created_at.__format__('%A, %d. %B %Y'))
         em.add_field(name='Дата входа', value=user.joined_at.__format__('%A, %d. %B %Y'))
-        em.add_field(name='Роли', value=rolenames, inline=True)
+        em.add_field(name='Роли', value=rolenames, inline=false)
         em.set_footer(text='Юзер ID: '+str(user.id))
         em.set_thumbnail(url=avi)
         em.set_author(name=user, icon_url=server.icon_url)

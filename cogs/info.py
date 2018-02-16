@@ -1,25 +1,5 @@
 '''
 MIT License
-
-Copyright (c) 2017 Grok
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
 '''
 
 import discord
@@ -251,7 +231,7 @@ class Information:
         em.add_field(name='Номер.',value=str(member_number),inline = True)
         em.add_field(name='Дата создания', value=user.created_at.__format__('%A, %d. %B %Y'))
         em.add_field(name='Дата входа', value=user.joined_at.__format__('%A, %d. %B %Y'))
-        em.add_field(name='Роли', value=rolenames, inline= False)
+        em.add_field(name='Роли', value=rolenames, inline= True)
         em.set_footer(text='Юзер ID: '+str(user.id))
         em.set_thumbnail(url=avi)
         em.set_author(name=user, icon_url=server.icon_url)
@@ -263,7 +243,7 @@ class Information:
             for page in em_list:
                 await ctx.send(page)
 
-    @commands.command(aliases=['bot', 'info', 'status'])
+    @commands.command(aliases=['bot', 'info', 'stat'])
     async def about(self, ctx):
         '''Параметры бота.'''
 

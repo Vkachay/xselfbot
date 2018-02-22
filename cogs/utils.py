@@ -150,6 +150,9 @@ class Utility:
         if status == "play":
             await self.bot.change_presence(game=discord.Game(name=message), afk=True)
             color = discord.Color(value=0x43b581).to_rgb()
+        elif status == "hear":
+            await self.bot.change_presence(game=discord.Game(name=message, type=2), afk=True)
+            color = discord.Color(value=0x43b581).to_rgb()
         elif status == "watch":
             await self.bot.change_presence(game=discord.Game(name=message, type=3), afk=True)
             color = discord.Color(value=0x43b581).to_rgb()

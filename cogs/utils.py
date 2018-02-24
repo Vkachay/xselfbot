@@ -142,7 +142,7 @@ class Utility:
 
     @commands.command(name='presence')
     async def _presence(self, ctx, status, *, message=None):
-        '''Сменить дискорд статус ("Playing", clear или stream,watch)'''
+        '''Сменить дискорд статус ("Playing", clear или stream,watch,hear)'''
         status = status.lower()
         emb = discord.Embed(title="Presence")
         emb.color = await ctx.get_dominant_color(ctx.author.avatar_url)
@@ -164,14 +164,14 @@ class Utility:
             emb.description = "Статус изменен."
             return await ctx.send(embed=emb)
         else:
-            emb.description = "Выбрать можно токо это `play`,`stream` или `clear`."
+            emb.description = "Выбрать можно только это `play`,`stream` или `watch`,`hear`,`clear`."
             return await ctx.send(embed=emb)
 
         Image.new('RGB', (500, 500), color).save(file, format='PNG')
         if message:
             emb.description = f"""
-Статус меняется. 'Game': {message}\n
-Статус скоро будет изменен..
+Статус изменен. 'Game': {message}\n
+Статус успешно изменен..
             """
         else:
             emb.description = f"Статус изменен"

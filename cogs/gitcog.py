@@ -97,7 +97,7 @@ class Git:
 
     @commands.command()
     async def suggest(self, ctx, summary, *, details):
-        '''Создайте проблему! `{p} makeissue <краткое резюме> | <подробно>`'''
+        '''`Создайте проблему! {p} makeissue <краткое резюме> | <подробно>`'''
         async with ctx.session.post('https://api.github.com/repos/kyb3r/selfbot.py/issues', json={"title": summary, "body": details}, headers={'Authorization': f'Bearer {self.githubtoken}'}) as resp:
             if resp.status == 200 or resp.status == 201:
                 issueinfo = await resp.json()

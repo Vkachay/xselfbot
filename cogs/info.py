@@ -278,7 +278,7 @@ class Information:
             fmt = '{d}d ' + fmt
         uptime = fmt.format(d=days, h=hours, m=minutes, s=seconds)
 
-        Github = '[Кликни сюда](https://github.com/X-49/xselfbot.py/)'
+        Github = '[Кликни сюда](https://github.com/X-49/xselfbot/)'
         Server = '[Кликни сюда](https://discord.gg/uzzS3sm)'
         website = '[selfbot-py.tk](http://selfbot-py.tk/)'
         

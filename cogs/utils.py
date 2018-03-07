@@ -147,7 +147,7 @@ class Utility:
         emb = discord.Embed(title="Presence")
         emb.color = await ctx.get_dominant_color(ctx.author.avatar_url)
         file = io.BytesIO()
-        if status == "play" || "играет":
+        if status == "play","играет":
             await self.bot.change_presence(game=discord.Game(name=message), afk=True)
             color = discord.Color(value=0x43b581).to_rgb()
         elif status == "hear":

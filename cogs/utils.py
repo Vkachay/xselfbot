@@ -170,7 +170,7 @@ class Utility:
         Image.new('RGB', (500, 500), color).save(file, format='PNG')
         if message:
             emb.description = f"""
-Статус изменен. 'игра\статус': {message}\n
+Статус изменен. 'статус': {message}\n
 Статус успешно изменен..
             """
         else:
@@ -255,7 +255,7 @@ class Utility:
             return await self.bot.say(f'*{translate(text, lang)}*')
         lang = dict(zip(conv.values(), conv.keys())).get(lang.lower().title())
         if lang:
-            await ctx.send(f'*{translate(text, lang)}*')
+            await ctx.send(f'Перевод:{translate(text, lang)}')
         else:
             await ctx.send('`Язык не опознан.`', delete_after=5)
         try:
@@ -298,7 +298,7 @@ class Utility:
             await ctx.send(embed=em)
             self._last_embed = params
         except:
-            await ctx.send('Формат хес не опознан!')
+            await ctx.send('Формат не опознан!')
 
     @commands.group(aliases=['rtfd'], invoke_without_command=True)
     async def rtfm(self, ctx, *, obj: str = None):
@@ -325,7 +325,7 @@ class Utility:
         try:
             wik = wikipedia.page(newSearch)
         except wikipedia.DisambiguationError:
-            more_details = await ctx.channel.send('Более четко?.')
+            more_details = await ctx.channel.send('Более четко?')
             await asyncio.sleep(5)
             await ctx.message.delete(more_details)
             return
@@ -358,7 +358,7 @@ class Utility:
                     raw = int(maybe_col.strip('#'), 16)
                     return discord.Color(value=raw)
                 else:
-                    return await ctx.send('Chosen color is not defined.')
+                    return await ctx.send('Выбраный цвет не обнаружен.')
 
             elif color:
                 color = int(color.strip('#'), 16)
@@ -975,22 +975,22 @@ class Utility:
     async def update(self, ctx):
         '''Авто обновление'''
         git = self.bot.get_cog('Git')
-        if not await git.starred('kyb3r/selfbot.py'): return await ctx.send('**Комманда отключена <https://github.com/x-49/xselfbot.py>**')
+        if not await git.starred('X-49/xselfbot'): return await ctx.send('**Комманда отключена <https://github.com/x-49/xselfbot>**')
         # get username
         username = await git.githubusername()
-        async with ctx.session.get('https://api.github.com/repos/kyb3r/selfbot.py/git/refs/heads/rewrite', headers={"Authorization": f"Bearer {git.githubtoken}"}) as resp:
+        async with ctx.session.get('https://api.github.com/repos/x-49/xselfbot/git/refs/heads/rewrite', headers={"Authorization": f"Bearer {git.githubtoken}"}) as resp:
             if 300 > resp.status >= 200:
                 async with ctx.session.post(f'https://api.github.com/repos/{username}/selfbot.py/merges', json={"head": (await resp.json())['object']['sha'], "base": "rewrite", "commit_message": "Updating Bot"}, headers={"Authorization": f"Bearer {git.githubtoken}"}) as resp2:
                     if 300 > resp2.status >= 200:
                         if resp2.status == 204:
                             return await ctx.send('У тебя последняя версия!')
-                        await ctx.send('Bot updated! Restarting...')
+                        await ctx.send('Бот обновлен,перезагрзка...')
                     else:
                         if resp2.status == 409:
-                            return await ctx.send('Merge conflict, you did some commits that made this fail!')
-                        await ctx.send('Well, I failed somehow, send the following to `4JR#2713` (180314310298304512) - resp2: ```py\n' + str(await resp2.json()) + '\n```')
+                            return await ctx.send('Произошел конфликт и фейл!')
+                        await ctx.send('Чтож я не смог...' + str(await resp2.json()) + '\n```')
             else:
-                await ctx.send('Well, I failed somehow, send the following to `4JR#2713` (180314310298304512) - resp: ```py\n' + str(await resp.json()) + '\n```')
+                await ctx.send('Чтож я не смог...' + str(await resp.json()) + '\n```')
 
     @commands.command(pass_context=True)
     async def rpoll(self, ctx, *, args):
@@ -1012,7 +1012,7 @@ class Utility:
         if len(options) <= 1:
             raise commands.errors.MissingRequiredArgument
         if len(options) >= 11:
-            return await ctx.send(self.bot.bot_prefix + "You must have 9 options or less.")
+            return await ctx.send(self.bot.bot_prefix + "Вы имеете 9 ответов или более")
         if time:
             time = int(time.strip("time="))
         else:
@@ -1023,7 +1023,7 @@ class Utility:
         for idx, option in enumerate(options[1:]):
             confirmation_msg += "{} - {}\n".format(emoji[idx], option)
             to_react.append(emoji[idx])
-        confirmation_msg += "\n\nУ вас {} для голосования!".format(time)
+        confirmation_msg += "\n\nУ вас {} секунд для голосования!".format(time)
         poll_msg = await ctx.send(confirmation_msg)
         for emote in to_react:
             await poll_msg.add_reaction(emote)
@@ -1054,12 +1054,12 @@ class Utility:
     async def cc(self, ctx):
         '''Кастомные комманды '''
         git = self.bot.get_cog('Git')
-        if not await git.starred('x-49/xselfbot.py'): return await ctx.send('**Комманда отключена <https://github.com/x-49/xselfbot.py>**')
+        if not await git.starred('x-49/xselfbot'): return await ctx.send('**Комманда отключена <https://github.com/x-49/xselfbot>**')
     @cc.command(aliases=['create', 'add'])
     async def make(self, ctx, name, *, content):
         '''Создайте свою комманду! Include `{pycc}` in the content to specify a pycc!'''
         git = self.bot.get_cog('Git')
-        if not await git.starred('x-49/xselfbot.py'): return await ctx.send('Отключена **htts://X-49/xselfbot.py>**')
+        if not await git.starred('x-49/xselfbot'): return await ctx.send('Отключена **htts://X-49/xselfbot>**')
         if discord.utils.get(bot.commands, name=name) != None:
             return await ctx.send('This is already an existing command.')
         with open('data/cc.json') as f:
@@ -1081,14 +1081,14 @@ class Utility:
                 if await ctx.updatedata('data/cc.json', json.dumps(commands, indent=4), f'New {cmdtype} Command: {name}'):
                     await ctx.send(f'Created {cmdtype} command.')
             else:
-                await ctx.send('Use `cc edit` to edit this command as it already exists as a pycc command.')
+                await ctx.send('Используйте `cc edit` для редактирования готовой команды.')
         else:
-            await ctx.send('Use `cc edit` to edit this command as it already exists a sa text command.')
+            await ctx.send('Используйте `cc edit` для редактирования готовой команды.')
     @cc.command()
     async def edit(self, ctx, name, *, content):
         '''Edits a currently existing custom command'''
         git = self.bot.get_cog('Git')
-        if not await git.starred('kyb3r/selfbot.py'): return await ctx.send('**This command is disabled as the user have not starred <https://github.com/kyb3r/selfbot.py>**')
+        if not await git.starred('x-49/xselfbot'): return await ctx.send('**Команда отключена <https://github.com/kyb3r/xselfbot>**')
         with open('data/cc.json') as f:
             commands = json.load(f)
         try:
@@ -1110,7 +1110,7 @@ class Utility:
     async def delete(self, ctx, *, name):
         '''Deletes a custom command'''
         git = self.bot.get_cog('Git')
-        if not await git.starred('kyb3r/selfbot.py'): return await ctx.send('**This command is disabled as the user have not starred <https://github.com/kyb3r/selfbot.py>**')
+        if not await git.starred('x-49/xselfbot'): return await ctx.send('**This command is disabled as the user have not starred <https://github.com/kyb3r/selfbot.py>**')
         with open('data/cc.json') as f:
             commands = json.load(f)
         try:
@@ -1134,7 +1134,7 @@ class Utility:
     async def _list(self, ctx, option:str = 'all'):
         '''Displays a list of your current custom commands'''
         git = self.bot.get_cog('Git')
-        if not await git.starred('kyb3r/selfbot.py'): return await ctx.send('**This command is disabled as the user have not starred <https://github.com/kyb3r/selfbot.py>**')
+        if not await git.starred('x-49/xselfbot'): return await ctx.send('**This command is disabled as the user have not starred <https://github.com/kyb3r/selfbot.py>**')
         with open('data/cc.json') as f:
             commands = json.load(f)
         if option == 'all':
@@ -1157,7 +1157,7 @@ class Utility:
     @cc.command()
     async def wipe(self, ctx):
         """Wipes all your custom commands!"""
-        message1 = await ctx.send('Are you sure you want to delete all your custom commands?')
+        message1 = await ctx.send('Удалить все?')
         try:
             message2 = await self.bot.wait_for('message', check=self.agreecheck, timeout=5)
         except asyncio.TimeoutError:

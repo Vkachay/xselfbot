@@ -147,7 +147,7 @@ class Utility:
         emb = discord.Embed(title="Presence")
         emb.color = await ctx.get_dominant_color(ctx.author.avatar_url)
         file = io.BytesIO()
-        if status == "play","играет":
+        if status == "play":
             await self.bot.change_presence(game=discord.Game(name=message), afk=True)
             color = discord.Color(value=0x43b581).to_rgb()
         elif status == "hear":
@@ -170,7 +170,7 @@ class Utility:
         Image.new('RGB', (500, 500), color).save(file, format='PNG')
         if message:
             emb.description = f"""
-Статус изменен. 'Game': {message}\n
+Статус изменен. 'игра\статус': {message}\n
 Статус успешно изменен..
             """
         else:
@@ -193,7 +193,7 @@ class Utility:
             async with ctx.session.post("https://hastebin.com/documents", data=source) as resp:
                 data = await resp.json()
             key = data['key']
-            return await ctx.send(f'source is: <https://hastebin.com/{key}.py>')
+            return await ctx.send(f'ебат они большие,держи так: <https://hastebin.com/{key}.py>')
         else:
             return await ctx.send(fmt)
 
@@ -220,7 +220,7 @@ class Utility:
         msg = await ctx.get_message(channel or ctx.channel, id)
 
         if not msg:
-            return await ctx.send('Could not find that message!', delete_after=3.0)
+            return await ctx.send('Нету такого!', delete_after=3.0)
 
         em = discord.Embed(color=0x00FFFF, description=msg.clean_content, timestamp=msg.created_at)
         em.set_author(name=str(msg.author), icon_url=msg.author.avatar_url)
@@ -236,13 +236,13 @@ class Utility:
     async def charinfo(self, ctx, *, characters: str):
         """Покажет информацию об цифре."""
         if len(characters) > 15:
-            return await ctx.send('Too many characters ({}/15)'.format(len(characters)))
+            return await ctx.send('Слишкам многа ({}/15)'.format(len(characters)))
 
         fmt = '`\\U{0:>08}`: `\\N{{{1}}}` - `{2}` - <http://www.fileformat.info/info/unicode/char/{0}>'
 
         def to_string(c):
             digit = format(ord(c), 'x')
-            name = unicodedata.name(c, 'Name not found.')
+            name = unicodedata.name(c, 'Не нашел.')
             return fmt.format(digit, name, c)
 
         await ctx.send('\n'.join(map(to_string, characters)))
@@ -267,7 +267,7 @@ class Utility:
     async def langs(self, ctx):
         '''Лист всех доступных языков'''
         em = discord.Embed(color=discord.Color.blue(),
-                           title='Available Languages',
+                           title='Доступные языки',
                            description=', '.join(codes.values()))
         await ctx.send(embed=em)
 
@@ -282,14 +282,14 @@ class Utility:
         
 
         ```
-        {description: Discord format supported}
-        {title: required | url: optional}
-        {author: required | icon: optional | url: optional}
-        {image: image_url_here}
-        {thumbnail: image_url_here}
+        {description: Текст}
+        {title: заголовок | url: урл}
+        {author: автор | icon: иконка | url: урл}
+        {image: урл картинки}
+        {thumbnail: урл картинки}
         {field: required | value: required}
-        {footer: footer_text_here | icon: optional}
-        {timestamp} <-this will include a timestamp
+        {footer: нижний текст | icon: иконка}
+        {timestamp} <-оно поставит временую метку
         ```
         '''
         em = await self.to_embed(ctx, params)
@@ -298,7 +298,7 @@ class Utility:
             await ctx.send(embed=em)
             self._last_embed = params
         except:
-            await ctx.send('Improperly formatted embed!')
+            await ctx.send('Формат хес не опознан!')
 
     @commands.group(aliases=['rtfd'], invoke_without_command=True)
     async def rtfm(self, ctx, *, obj: str = None):

@@ -46,11 +46,11 @@ class Information:
             text += f'\U0001f4dd {channel}\n'
         
         if len(server.text_channels) > 0:
-            e.add_field(name='Text Channels', value=f'```{text}```')
+            e.add_field(name='Текст каналы', value=f'```{text}```')
         if len(server.categories) > 0:
-            e.add_field(name='Categories', value=f'```{categories}```')
+            e.add_field(name='Категории', value=f'```{categories}```')
         if len(server.voice_channels) > 0:
-            e.add_field(name='Voice Channels', value=f'```{voice}```')
+            e.add_field(name='Войс каналы', value=f'```{voice}```')
 
         try:
             await ctx.send(embed=e)
@@ -157,7 +157,7 @@ class Information:
         voice_channels = len([x for x in server.channels if isinstance(x, discord.VoiceChannel)])
         categories = len(server.channels) - text_channels - voice_channels
         passed = (ctx.message.created_at - server.created_at).days
-        created_at = "Since {}. That's over {} days ago!".format(server.created_at.strftime("%d %b %Y %H:%M"), passed)
+        created_at = "Since {}. Сервер зделан {} дней назад!".format(server.created_at.strftime("%d %b %Y %H:%M"), passed)
 
         colour = await ctx.get_dominant_color(server.icon_url)
 
@@ -228,7 +228,7 @@ class Information:
 
         em = discord.Embed(colour=color, description=desc, timestamp=time)
         em.add_field(name='Имя', value=user.nick, inline=True)
-        em.add_field(name='Номер.',value=str(member_number),inline = True)
+        em.add_field(name='Номер входа.',value=str(member_number),inline = True)
         em.add_field(name='Дата создания', value=user.created_at.__format__('%A, %d. %B %Y'))
         em.add_field(name='Дата входа', value=user.joined_at.__format__('%A, %d. %B %Y'))
         em.add_field(name='Роли', value=rolenames, inline= True)
@@ -243,15 +243,15 @@ class Information:
             for page in em_list:
                 await ctx.send(page)
 
-    @commands.command(aliases=['bot', 'info', 'stat'])
+    @commands.command(aliases=['bot', 'info', 'stat', 'статус'])
     async def about(self, ctx):
         '''Параметры бота.'''
 
         embed = discord.Embed()
-        embed.url = 'https://selfbot-py.tk'
+        embed.url = 'https://xselfbot-py.tk'
         embed.colour = await ctx.get_dominant_color(ctx.author.avatar_url)
 
-        embed.set_author(name='selfbot.py', icon_url=ctx.author.avatar_url)
+        embed.set_author(name='xselfbot', icon_url=ctx.author.avatar_url)
 
         total_members = sum(1 for _ in self.bot.get_all_members())
         total_online = len({m.id for m in self.bot.get_all_members() if m.status is discord.Status.online})
@@ -283,7 +283,7 @@ class Information:
         website = '[selfbot-py.tk](http://selfbot-py.tk/)'
         
 
-        embed.add_field(name='Автор', value='X-49#9821')
+        embed.add_field(name='Автор', value='X-49#9821 , Zziger#8809')
         embed.add_field(name='Время работы', value=uptime)
         memory_usage = self.bot.process.memory_full_info().uss / 1024**2
         cpu_usage = self.bot.process.cpu_percent() / psutil.cpu_count()

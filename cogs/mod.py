@@ -153,7 +153,7 @@ class Mod:
         except:
             return await ctx.send('Нет прав для просмотра листа банов.')
 
-        em = discord.Embed(title=f'List of Banned Members ({len(bans)}):')
+        em = discord.Embed(title=f'Лист банов ({len(bans)}):')
         em.description = ', '.join([str(b.user) for b in bans])
         em.color = await ctx.get_dominant_color(ctx.guild.icon_url)
 
@@ -161,7 +161,7 @@ class Mod:
 
     @commands.command()
     async def baninfo(self, ctx, *, name_or_id):
-        '''Узнате причину бана с логов.'''
+        '''Узнайте причину бана с логов.'''
         ban = await ctx.get_ban(name_or_id)
         em = discord.Embed()
         em.color = await ctx.get_dominant_color(ban.user.avatar_url)
@@ -177,12 +177,12 @@ class Mod:
         '''Добавить роль юзеру.'''
         role = discord.utils.find(lambda m: rolename.lower() in m.name.lower(), ctx.message.guild.roles)
         if not role:
-            return await ctx.send('Щас дам,А неттт, нет такой роли.')
+            return await ctx.send('`Данной роли нету`.')
         try:
             await member.add_roles(role)
             await ctx.send(f'Добавлена роль: `{role.name}`')
         except:
-            await ctx.send("Нету прав((9(.")
+            await ctx.send("Нету прав.")
 
 
     @commands.command()
@@ -190,12 +190,12 @@ class Mod:
         '''Убрать роль с юзера.'''
         role = discord.utils.find(lambda m: rolename.lower() in m.name.lower(), ctx.message.guild.roles)
         if not role:
-            return await ctx.send('Ща сниму,А нееет, нет такой роли.')
+            return await ctx.send('`Нет такой роли.`')
         try:
             await member.remove_roles(role)
             await ctx.send(f'Убрана роль: `{role.name}`')
         except:
-            await ctx.send("У меня нету прав")
+            await ctx.send("`У меня нету прав`")
 
     @commands.command()
     async def hackban(self, ctx, userid, *, reason=None):

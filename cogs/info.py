@@ -46,11 +46,11 @@ class Information:
             text += f'\U0001f4dd {channel}\n'
         
         if len(server.text_channels) > 0:
-            e.add_field(name='Текст каналы', value=f'```{text}```')
+            e.add_field(name='Текст каналы', value=f'```{чаты}```')
         if len(server.categories) > 0:
-            e.add_field(name='Категории', value=f'```{categories}```')
+            e.add_field(name='Категории', value=f'```{категории}```')
         if len(server.voice_channels) > 0:
-            e.add_field(name='Войс каналы', value=f'```{voice}```')
+            e.add_field(name='Войс каналы', value=f'```{войс}```')
 
         try:
             await ctx.send(embed=e)

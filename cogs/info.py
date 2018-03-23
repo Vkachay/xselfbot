@@ -46,11 +46,11 @@ class Information:
             text += f'\U0001f4dd {channel}\n'
         
         if len(server.text_channels) > 0:
-            e.add_field(name='Текст каналы', value=f'```{чаты}```')
+            e.add_field(name='Текст каналы', value=f'```{text}```')
         if len(server.categories) > 0:
-            e.add_field(name='Категории', value=f'```{категории}```')
+            e.add_field(name='Категории', value=f'```{categories}```')
         if len(server.voice_channels) > 0:
-            e.add_field(name='Войс каналы', value=f'```{войс}```')
+            e.add_field(name='Войс каналы', value=f'```{voice}```')
 
         try:
             await ctx.send(embed=e)
@@ -119,7 +119,7 @@ class Information:
                 async with ctx.session.get(av) as resp:
                     image = await resp.read()
                 with io.BytesIO(image) as file:
-                    await ctx.send(file=discord.File(file, 'avatar.png'))
+                    await ctx.send(file=discord.File(file, 'avatarka_blyat.png'))
             except discord.HTTPException:
                 await ctx.send(av)
 

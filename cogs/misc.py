@@ -158,7 +158,7 @@ class Misc:
     @commands.command()
     async def gif(self, ctx, *, tag):
         ''' Рандом гиф. Использовать: gif <тег> 
-        Эта гиф Nsfw чтоб исподьзовать ее проппшите 'load community.nsfw '''
+        Это гиф Nsfw чтоб использовать ее пропишите 'load community.nsfw '''
         g = safygiphy.Giphy()
         tag = tag.lower()
         with open('data/nsfw.json')as f:
@@ -288,7 +288,7 @@ class Misc:
             with open(f'data/anims/{file}.txt') as a:
                 anim = a.read().splitlines()
         except:
-            return await ctx.send('File not found.')
+            return await ctx.send('Файл не найден.')
         interval = anim[0]
         for line in anim[1:]:
             await ctx.message.edit(content=line)
@@ -297,7 +297,7 @@ class Misc:
     @animate.command()
     async def list(self, ctx):
         '''Вот весь доступный список'''
-        await ctx.send(f"Available animations: `{', '.join([f[:-4] for f in os.listdir('data/anims') if f.endswith('.txt')])}`")
+        await ctx.send(f"Доступные анимации: `{', '.join([f[:-4] for f in os.listdir('data/anims') if f.endswith('.txt')])}`")
 
     @commands.command()
     async def virus(self, ctx, virus=None, *, user: discord.Member = None):
@@ -385,16 +385,14 @@ class Misc:
         async with ctx.session.get(url) as resp:
             new = await resp.text()
         emb = discord.Embed(colour=await ctx.get_dominant_color(ctx.author.avatar_url))
-        emb.add_field(name="Original Link", value=link, inline=False)
-        emb.add_field(name="Shortened Link", value=new, inline=False)
+        emb.add_field(name="Оригинальная ссылка", value=link, inline=False)
+        emb.add_field(name="Короткая ссылка", value=new, inline=False)
         await ctx.send(embed=emb)
 
     @commands.command(aliases=['calc', 'maths'])
     async def calculate(self, ctx, *, formula=None):
         """
-        Do some real math
-        finally a working command for mathematics
-        thanks to Paul McGuire's fourFn.py module
+        Калькулятор.
         """
         person = ctx.message.author
         user = ctx.author
@@ -412,16 +410,16 @@ class Misc:
             answer=self.nsp.eval(formula)
         except:
             # If there's a problem in the input, show examples
-            msg = f'\N{THINKING FACE} wrong {formula} input.\nTry any of these:'
+            msg = f'\N{THINKING FACE} неправильная формула => {formula} прописана.\nПопробуйте одну из этих:'
             e = discord.Embed()
             e.color = await ctx.get_dominant_color(user.avatar_url)
             e.description = f'\u200B{msg}'
-            e.add_field(name='multiplication', value="`num` * `num`", inline=True)
-            e.add_field(name='division', value="`num` / `num`", inline=True)
-            e.add_field(name='addition', value="`num` + `num`", inline=True)
-            e.add_field(name='rest', value="`num` - `num`", inline=True)
-            e.add_field(name='exponential', value="`num` ^ `num`")
-            e.add_field(name='integer', 
+            e.add_field(name='Умножение', value="`num` * `num`", inline=True)
+            e.add_field(name='Деление', value="`num` / `num`", inline=True)
+            e.add_field(name='Сложение', value="`num` + `num`", inline=True)
+            e.add_field(name='Вычитание', value="`num` - `num`", inline=True)
+            e.add_field(name='Возведение в степень', value="`num` ^ `num`")
+            e.add_field(name='Пример', 
                         value="[`num` + `num` | `num` - `num`] `num` 0 `num`..`num` 9 `num` +")
             await ctx.send(embed=e, delete_after=60)
             return
@@ -429,8 +427,8 @@ class Misc:
         # Correct input prints correct answer
         e = discord.Embed()
         e.color = await ctx.get_dominant_color(user.avatar_url)
-        e.add_field(name='Input:', value=f'```{formula}```', inline=True)
-        e.add_field(name='Result:', value=f'```{round(answer, 2)}```', inline=True)
+        e.add_field(name='Задано:', value=f'```{formula}```', inline=True)
+        e.add_field(name='Решено:', value=f'```{round(answer, 2)}```', inline=True)
         await ctx.send(embed=e)
 
     @commands.command()
@@ -485,7 +483,7 @@ class Misc:
         '''Копирует эмодзи с другово сервер на ваш'''
         if len(ctx.message.guild.emojis) == 50:
             await ctx.message.delete()
-            await ctx.send('Блеат у нас уже 50 стикеров, куда двльше?!')
+            await ctx.send('Блеат у нас уже 50 стикеров, куда дальше?!')
             return
         emo_check = self.check_emojis(ctx.bot.emojis, emoji.split(":"))
         if emo_check[0]:
@@ -546,21 +544,21 @@ class Misc:
         try:
             term = await client.get_term(search_terms)
         except LookupError:
-            emb.title = "Search term not found."
+            emb.title = "Термин ненайден."
             return await ctx.send(embed=emb)
         emb.color = await ctx.get_dominant_color(url=ctx.message.author.avatar_url)
         definition = term.definitions[definition_number]
         emb.title = f"{definition.word}  ({definition_number+1}/{len(term.definitions)})"
         emb.description = definition.definition
         emb.url = definition.permalink
-        emb.add_field(name='Example', value=definition.example)
-        emb.add_field(name='Votes', value=f'{definition.upvotes}👍    {definition.downvotes}👎')
+        emb.add_field(name='Пример', value=definition.example)
+        emb.add_field(name='Голоса', value=f'{definition.upvotes}👍    {definition.downvotes}👎')
         emb.set_footer(text=f"Definition written by {definition.author}", icon_url="http://urbandictionary.com/favicon.ico")
         await ctx.send(embed=emb)
 
     @commands.group(invoke_without_command=True)
     async def lenny(self, ctx):
-        """Lenny and tableflip group commands"""
+        """Lenny и tableflip команды"""
         msg = 'Available: `{}lenny face`, `{}lenny shrug`, `{}lenny tableflip`, `{}lenny unflip`'
         await ctx.send(msg.format(ctx.prefix))
 
@@ -602,7 +600,7 @@ class Misc:
         async with ctx.session.get(f"http://artii.herokuapp.com/make?text={urllib.parse.quote_plus(text)}") as f:
             message = await f.text()
         if len('```' + message + '```') > 2000:
-            await ctx.send('Твой ASCII слишком длин!')
+            await ctx.send('ASCII слишком длин!')
             return
         await ctx.send('```' + message + '```')
 

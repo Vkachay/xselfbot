@@ -281,7 +281,8 @@ class Information:
         Github = '[Кликни сюда](https://github.com/X-49/xselfbot/)'
         Server = '[Кликни сюда](https://discord.gg/uzzS3sm)'
         website = '[selfbot-py.tk](http://selfbot-py.tk/)'
-        
+        Thx = 'Organika_3571#9340 Сыч#0960 zziger#8809 MeowGMS#8392 forer00#9619'
+	
 
         embed.add_field(name='Автор', value='X-49#9821 , Zziger#8809')
         embed.add_field(name='Время работы', value=uptime)
@@ -290,6 +291,7 @@ class Information:
         embed.add_field(name='Процесс', value=f'{memory_usage:.2f} MiB\n{cpu_usage:.2f}% CPU')
         embed.add_field(name='Github', value=Github)
         embed.add_field(name='Discord', value=Server)
+        embed.add_field(name='Большое спасибо', value=Thx)
         await ctx.send(embed=embed)
 
 

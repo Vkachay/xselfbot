@@ -157,7 +157,7 @@ class Information:
         voice_channels = len([x for x in server.channels if isinstance(x, discord.VoiceChannel)])
         categories = len(server.channels) - text_channels - voice_channels
         passed = (ctx.message.created_at - server.created_at).days
-        created_at = "Since {}. Сервер зделан {} дней назад!".format(server.created_at.strftime("%d %b %Y %H:%M"), passed)
+        created_at = "Since {}. Артем и Никита поебались и зачали сервер {} дней назад!".format(server.created_at.strftime("%d %b %Y %H:%M"), passed)
 
         colour = await ctx.get_dominant_color(server.icon_url)
 
